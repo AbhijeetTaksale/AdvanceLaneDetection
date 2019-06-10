@@ -21,14 +21,14 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/undistort_output.png "Undistorted"
 
-[image2]: ./output_images/Undist01.PNG "Undist01"
-[image3]: ./output_images/Undist02.PNG "Undist02"
-[image4]: ./output_images/Undist03.PNG "Undist03"
-[image5]: ./output_images/Undist04.PNG "Undist04"
-[image6]: ./output_images/Undist05.PNG "Undist05"
-[image7]: ./output_images/Undist06.PNG "Undist06"
-[image8]: ./output_images/Undist07.PNG "Undist07"
-[image9]: ./output_images/Undist08.PNG "Undist08"
+[image2]: ./output_images/undist01.PNG "Undist01"
+[image3]: ./output_images/undist02.PNG "Undist02"
+[image4]: ./output_images/undist03.PNG "Undist03"
+[image5]: ./output_images/undist04.PNG "Undist04"
+[image6]: ./output_images/undist05.PNG "Undist05"
+[image7]: ./output_images/undist06.PNG "Undist06"
+[image8]: ./output_images/undist07.PNG "Undist07"
+[image9]: ./output_images/undist08.PNG "Undist08"
 
 [image10]: ./output_images/Gradiant.PNG "Gradiant Transformed"
 [image11]: ./output_images/binary_combo_example.jpg "Gray Binary"
