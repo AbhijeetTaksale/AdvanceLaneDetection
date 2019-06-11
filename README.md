@@ -113,25 +113,67 @@ The code for my perspective transform includes a function called `transform_imag
     dst = np.float32([[250,0], [250,720], [1065,0], [1065,720]])
 ```
 
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+I verified that my perspective transform was working as expected. Then output images from the function transform_image() is super imposed by parallel lines tracking white lane by using fit_polynomial function.
 
 ![alt text][image20]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
-
-![alt text][image5]
+Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda as below:
+```
+left_lane_inds = ((nonzerox > (left_fit[0]*(nonzeroy**2) + left_fit[1]*nonzeroy + 
+                    left_fit[2] - margin)) & (nonzerox < (left_fit[0]*(nonzeroy**2) + 
+                    left_fit[1]*nonzeroy + left_fit[2] + margin)))
+    right_lane_inds = ((nonzerox > (right_fit[0]*(nonzeroy**2) + right_fit[1]*nonzeroy + 
+                    right_fit[2] - margin)) & (nonzerox < (right_fit[0]*(nonzeroy**2) + 
+                    right_fit[1]*nonzeroy + right_fit[2] + margin)))
+                    
+```
+Above code is included in search_around_poly(). This function takes binay warped as input, with left and right fit coordinates and draws lines around detected lane.
+![alt text][image12]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I did this in function measure_curvature_pixels(), where below code is responsible to measure curvature in real world.
+
+```
+# Fit a second order polynomial to pixel positions in each fake lane line
+    left_fit = np.polyfit(ploty, leftx, 2)
+    left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+    right_fit = np.polyfit(ploty, rightx, 2)
+    right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+
+    # Fit new polynomials to x,y in world space
+    y_eval = np.max(ploty)
+    left_fit_cr = np.polyfit(ploty*ym_per_pix, leftx*xm_per_pix, 2)
+    right_fit_cr = np.polyfit(ploty*ym_per_pix, rightx*xm_per_pix, 2)
+    
+    # Calculate the new radii of curvature
+    left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+    right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+    
+```
+
+And to calculate position of the vehcile wrt center I used car_offset().
+
+```
+## Image mid horizontal position 
+    mid_imgx = img_shape[1]//2
+        
+    ## Car position with respect to the lane
+    car_pos = (leftx[-1] + rightx[-1])/2
+    
+    ## Horizontal car offset 
+    offsetx = (mid_imgx - car_pos) * xm_per_pix
+
+```
+
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I implemented this step in the function `draw_lane()`.  Here is an example of my result on a test image:
 
-![alt text][image6]
+![alt text][image15]
 
 ---
 
@@ -139,7 +181,7 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_solution.mp4)
 
 ---
 
@@ -147,4 +189,8 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+I have lot of new things by this project. The issue that I faced while implementing the code is with highliting the yellow lines after window transform. Also window transform was some was difficult for me to understand, but with help form online docs I was able to implement it. 
+
+Initially to calibrate camera I just used scripting without function. Later on I added funcation to add it in pipeline. 
+
+To make it more robust I would tune the threshold transforms with color transform parameters.
