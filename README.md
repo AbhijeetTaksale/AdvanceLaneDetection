@@ -31,10 +31,16 @@ The goals / steps of this project are the following:
 [image9]: ./output_images/undist08.PNG "Undist08"
 
 [image10]: ./output_images/Gradiant.PNG "Gradiant Transformed"
-[image11]: ./output_images/binary_combo_example.jpg "Gray Binary"
-[image12]: ./output_images/warped_straight_lines.jpg "Warp Example"
-[image13]: ./output_images/color_fit_lines.jpg "Fit Visual"
-[image14]: ./output_images/example_output.jpg "Output"
+[image11]: ./output_images/binary_combo_example.PNG "Gray Binary"
+[image12]: ./output_images/warped_straight_lines.PNG "Warp Example"
+[image13]: ./output_images/color_fit_lines.PNG "Fit Visual"
+[image14]: ./output_images/CombinedS.PNG "CombinedS"
+[image15]: ./output_images/Drawlane.PNG "Drawlane"
+[image16]: ./output_images/gray_gradiant.PNG "Gray_Gradiant"
+[image17]: ./output_images/LanedetectedWithMeters.PNG "LanedetectedWithMeters"
+[image18]: ./output_images/Sbinary.PNG "Sbinary"
+[image19]: ./output_images/HBinary.PNG "HBinary"
+[image20]: ./output_images/Warped.PNG "Warped"
 
 
 [video1]: ./project_video.mp4 "Video"
@@ -55,22 +61,12 @@ You're reading it!
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for this step is contained in the first code cell of the IPython notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).  
+The aim of this project was to detect the lane by overcoming real time issues like distortion in camera images. In real world images will have three dimension and image captured by camera will have 2 dimension.  
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
-
-I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
-
-The aim of this project was to detect the lane by overcoming distortion in camera images. In real world images will have three dimension and image captured by camera will have 2 dimension. 
-
-For this, initially I caliberated the camera but using chessboard images. 
-
-
-
- So but using OpenCV's existing lib function cv2.calibrateCamera () I converted 3D Image to 2D.
-
-Before that by using cv2.findChessboardCorners
-
+For this, initially I caliberated the camera by using chessboard images. It's like training ML algorithum. I converted 3D Image (x,y,z) to 2D (x,y). 3D images having object points to 2D images having imgpoints.
+Using cv2.findChessboardCorners() I got conners of images which will be used to calibrate the image.
+To calibrate camera I used OpenCV's existing lib function cv2.calibrateCamera(). I used the return arguments form the function to undistort the images.
+I applied my undistort funtion on a chessboard sample and below output. 
 
 ![alt text][image1]
 
@@ -79,6 +75,7 @@ Before that by using cv2.findChessboardCorners
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
+Below are the raw images and there output after undistortion.
 ![alt text][image2]
 ![alt text][image3]
 ![alt text][image4]
@@ -87,13 +84,14 @@ To demonstrate this step, I will describe how I apply the distortion correction 
 ![alt text][image7]
 ![alt text][image8]
 ![alt text][image9]
-![alt text][image10]
+
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color and gradient thresholds to generate a binary image.
 
-![alt text][image3]
+![alt text][image10]
+![alt text][image11]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
